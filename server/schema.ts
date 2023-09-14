@@ -1,4 +1,12 @@
-import { adminQuery } from './Gateway/admin/schema';
+import {
+  superAdminMutation,
+  superAdminQuery,
+} from './Gateway/superAdmin/schema'
+import {
+  adminQuery,
+  adminMutation,
+  adminPermisiion,
+} from './Gateway/admin/schema'
 import { GraphQLObjectType, GraphQLSchema } from 'graphql'
 import {
   userMutation,
@@ -12,22 +20,27 @@ const query = new GraphQLObjectType({
   name: 'Query',
   fields: {
     ...userQuery,
-    ...adminQuery
+    ...adminQuery,
+    ...superAdminQuery,
   },
 })
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     ...userMutation,
+    ...adminMutation,
+    ...superAdminMutation,
   },
 })
 const permissions = shield(
   {
     Query: {
       ...userPermission.Query,
+      ...adminPermisiion.Query,
     },
     Mutation: {
       ...userPermission.Mutation,
+      ...adminPermisiion.Mutation,
     },
   },
   {

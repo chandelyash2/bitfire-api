@@ -42,16 +42,6 @@ export const userMutation = {
     },
     resolve: registerUserResolver,
   },
-  registerAdmin: {
-    type: AuthPayload,
-    args: {
-      input: {
-        type: SignupInputType,
-      },
-    },
-    resolve: registerUserResolver,
-  },
-
   authLogin: {
     type: AuthPayload,
     args: {
@@ -93,12 +83,10 @@ export const userPermission = {
   Query: {
     me: isAuthenticated,
     getUsers: or(isAdmin, isSuperAdmin),
-    getAdmins: isSuperAdmin,
-    getAdminAccount: or(isAdmin, isSuperAdmin),
   },
   Mutation: {
     authLogin: allow,
-    registerUser: or(isAdmin, isSuperAdmin),
+    registerUser: isAdmin,
     updateUser: isAuthenticated,
   },
 }

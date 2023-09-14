@@ -1,5 +1,4 @@
 import { GraphQLInputObjectType, GraphQLString } from 'graphql'
-import { userRole } from './User'
 
 const UpdateUserInput = new GraphQLInputObjectType({
   name: 'UpdateUserInput',
@@ -19,9 +18,6 @@ const UpdateUserInput = new GraphQLInputObjectType({
     },
     password: {
       type: GraphQLString,
-    },
-    role: {
-      type: userRole,
     },
   }),
 })

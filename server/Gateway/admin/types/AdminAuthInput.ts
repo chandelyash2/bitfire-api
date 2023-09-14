@@ -1,7 +1,7 @@
 import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql'
 
-const SignupInputType = new GraphQLInputObjectType({
-  name: 'SignUpInput',
+const AdminAuthInput = new GraphQLInputObjectType({
+  name: 'AdminAuthInput',
   fields: () => ({
     userName: {
       type: new GraphQLNonNull(GraphQLString),
@@ -9,12 +9,13 @@ const SignupInputType = new GraphQLInputObjectType({
     name: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    phone: {
-      type: GraphQLString,
-    },
     password: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+
+    creditLimit: {
       type: new GraphQLNonNull(GraphQLString),
     },
   }),
 })
-export default SignupInputType
+export default AdminAuthInput

@@ -21,16 +21,33 @@ export type Admin = {
   __typename?: 'Admin';
   _id: Scalars['ID']['output'];
   availableCredit?: Maybe<Scalars['Int']['output']>;
-  creditDistributedByAgent?: Maybe<Scalars['Int']['output']>;
-  creditGivenToAgent?: Maybe<Scalars['Int']['output']>;
   creditLimit?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
   parentId?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
-  role: AdminRole;
+  role?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['Boolean']['output']>;
   userName: Scalars['String']['output'];
+};
+
+export type AdminAuthInput = {
+  creditLimit: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  userName: Scalars['String']['input'];
+};
+
+export type AdminAuthPayload = {
+  __typename?: 'AdminAuthPayload';
+  admin?: Maybe<Admin>;
+  error?: Maybe<ErrorType>;
+  token?: Maybe<Scalars['String']['output']>;
+};
+
+export type AdminListInput = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type AdminListPayload = {
@@ -44,11 +61,6 @@ export type AdminPayload = {
   admin?: Maybe<Admin>;
   error?: Maybe<ErrorType>;
 };
-
-export enum AdminRole {
-  Admin = 'Admin',
-  Superadmin = 'Superadmin'
-}
 
 export type AuthInput = {
   password: Scalars['String']['input'];
@@ -73,24 +85,33 @@ export type ErrorType = {
   message: Scalars['String']['output'];
 };
 
-export type GetAdminInput = {
-  filter: AdminRole;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
+  authAdmin?: Maybe<AdminAuthPayload>;
   authLogin?: Maybe<AuthPayload>;
+  authSuperAdmin?: Maybe<SuperAdminPayload>;
   changePassword?: Maybe<UserPayload>;
+  changeSuperAdminPassword?: Maybe<SuperAdminPayload>;
+  deleteAdmin?: Maybe<AdminPayload>;
   deleteUser?: Maybe<UserPayload>;
-  registerAdmin?: Maybe<AuthPayload>;
+  registerAdmin?: Maybe<AdminPayload>;
+  registerSuperAdmin?: Maybe<SuperAdminPayload>;
   registerUser?: Maybe<AuthPayload>;
   updateUser?: Maybe<UserPayload>;
 };
 
 
+export type MutationAuthAdminArgs = {
+  input?: InputMaybe<AuthInput>;
+};
+
+
 export type MutationAuthLoginArgs = {
+  input?: InputMaybe<AuthInput>;
+};
+
+
+export type MutationAuthSuperAdminArgs = {
   input?: InputMaybe<AuthInput>;
 };
 
@@ -100,13 +121,28 @@ export type MutationChangePasswordArgs = {
 };
 
 
+export type MutationChangeSuperAdminPasswordArgs = {
+  input?: InputMaybe<ChangePasswordInput>;
+};
+
+
+export type MutationDeleteAdminArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationDeleteUserArgs = {
   id: Scalars['ID']['input'];
 };
 
 
 export type MutationRegisterAdminArgs = {
-  input?: InputMaybe<SignUpInput>;
+  input?: InputMaybe<AdminAuthInput>;
+};
+
+
+export type MutationRegisterSuperAdminArgs = {
+  input?: InputMaybe<SuperAdminSignupInput>;
 };
 
 
@@ -121,15 +157,15 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getAdminAccount?: Maybe<AdminPayload>;
   getAdmins?: Maybe<AdminListPayload>;
   getUsers?: Maybe<UsersPayload>;
   me: UserPayload;
+  meSuperAdmin?: Maybe<SuperAdminPayload>;
 };
 
 
 export type QueryGetAdminsArgs = {
-  input?: InputMaybe<GetAdminInput>;
+  input?: InputMaybe<AdminListInput>;
 };
 
 
@@ -138,11 +174,37 @@ export type QueryGetUsersArgs = {
 };
 
 export type SignUpInput = {
-  creditLimit: Scalars['Int']['input'];
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phone?: InputMaybe<Scalars['String']['input']>;
-  role: UserRole;
+  userName: Scalars['String']['input'];
+};
+
+export type SuperAdmin = {
+  __typename?: 'SuperAdmin';
+  _id: Scalars['ID']['output'];
+  availableCredit?: Maybe<Scalars['Int']['output']>;
+  creditDistributedByAgent?: Maybe<Scalars['Int']['output']>;
+  creditGivenToAgent?: Maybe<Scalars['Int']['output']>;
+  creditLimit?: Maybe<Scalars['Int']['output']>;
+  name: Scalars['String']['output'];
+  password?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['Boolean']['output']>;
+  userName: Scalars['String']['output'];
+};
+
+export type SuperAdminPayload = {
+  __typename?: 'SuperAdminPayload';
+  error?: Maybe<ErrorType>;
+  superAdmin?: Maybe<SuperAdmin>;
+  token?: Maybe<Scalars['String']['output']>;
+};
+
+export type SuperAdminSignupInput = {
+  creditLimit: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
   userName: Scalars['String']['input'];
 };
 
@@ -151,19 +213,16 @@ export type UpdateUserInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
-  role?: InputMaybe<UserRole>;
   userName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
-  availableCredit?: Maybe<Scalars['Int']['output']>;
-  creditLimit?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
   password?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
-  role: UserRole;
+  role?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['Boolean']['output']>;
   userName: Scalars['String']['output'];
 };
@@ -174,14 +233,7 @@ export type UserPayload = {
   user?: Maybe<User>;
 };
 
-export enum UserRole {
-  Admin = 'Admin',
-  Superadmin = 'Superadmin',
-  User = 'User'
-}
-
 export type UsersInput = {
-  filter: UserRole;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -273,21 +325,24 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  AdminAuthInput: AdminAuthInput;
+  AdminAuthPayload: ResolverTypeWrapper<AdminAuthPayload>;
+  AdminListInput: AdminListInput;
   AdminListPayload: ResolverTypeWrapper<AdminListPayload>;
   AdminPayload: ResolverTypeWrapper<AdminPayload>;
-  AdminRole: AdminRole;
   AuthInput: AuthInput;
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   ChangePasswordInput: ChangePasswordInput;
   ErrorType: ResolverTypeWrapper<ErrorType>;
-  GetAdminInput: GetAdminInput;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   SignUpInput: SignUpInput;
+  SuperAdmin: ResolverTypeWrapper<SuperAdmin>;
+  SuperAdminPayload: ResolverTypeWrapper<SuperAdminPayload>;
+  SuperAdminSignupInput: SuperAdminSignupInput;
   UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
   UserPayload: ResolverTypeWrapper<UserPayload>;
-  UserRole: UserRole;
   UsersInput: UsersInput;
   UsersPayload: ResolverTypeWrapper<UsersPayload>;
   AdditionalEntityFields: AdditionalEntityFields;
@@ -300,16 +355,21 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']['output'];
   String: Scalars['String']['output'];
   Boolean: Scalars['Boolean']['output'];
+  AdminAuthInput: AdminAuthInput;
+  AdminAuthPayload: AdminAuthPayload;
+  AdminListInput: AdminListInput;
   AdminListPayload: AdminListPayload;
   AdminPayload: AdminPayload;
   AuthInput: AuthInput;
   AuthPayload: AuthPayload;
   ChangePasswordInput: ChangePasswordInput;
   ErrorType: ErrorType;
-  GetAdminInput: GetAdminInput;
   Mutation: {};
   Query: {};
   SignUpInput: SignUpInput;
+  SuperAdmin: SuperAdmin;
+  SuperAdminPayload: SuperAdminPayload;
+  SuperAdminSignupInput: SuperAdminSignupInput;
   UpdateUserInput: UpdateUserInput;
   User: User;
   UserPayload: UserPayload;
@@ -368,16 +428,21 @@ export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDi
 export type AdminResolvers<ContextType = any, ParentType extends ResolversParentTypes['Admin'] = ResolversParentTypes['Admin']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   availableCredit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  creditDistributedByAgent?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  creditGivenToAgent?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   creditLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   parentId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  role?: Resolver<ResolversTypes['AdminRole'], ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   userName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AdminAuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AdminAuthPayload'] = ResolversParentTypes['AdminAuthPayload']> = {
+  admin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['ErrorType']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -407,29 +472,53 @@ export type ErrorTypeResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  authAdmin?: Resolver<Maybe<ResolversTypes['AdminAuthPayload']>, ParentType, ContextType, Partial<MutationAuthAdminArgs>>;
   authLogin?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, Partial<MutationAuthLoginArgs>>;
+  authSuperAdmin?: Resolver<Maybe<ResolversTypes['SuperAdminPayload']>, ParentType, ContextType, Partial<MutationAuthSuperAdminArgs>>;
   changePassword?: Resolver<Maybe<ResolversTypes['UserPayload']>, ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'input'>>;
+  changeSuperAdminPassword?: Resolver<Maybe<ResolversTypes['SuperAdminPayload']>, ParentType, ContextType, Partial<MutationChangeSuperAdminPasswordArgs>>;
+  deleteAdmin?: Resolver<Maybe<ResolversTypes['AdminPayload']>, ParentType, ContextType, RequireFields<MutationDeleteAdminArgs, 'id'>>;
   deleteUser?: Resolver<Maybe<ResolversTypes['UserPayload']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
-  registerAdmin?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, Partial<MutationRegisterAdminArgs>>;
+  registerAdmin?: Resolver<Maybe<ResolversTypes['AdminPayload']>, ParentType, ContextType, Partial<MutationRegisterAdminArgs>>;
+  registerSuperAdmin?: Resolver<Maybe<ResolversTypes['SuperAdminPayload']>, ParentType, ContextType, Partial<MutationRegisterSuperAdminArgs>>;
   registerUser?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, Partial<MutationRegisterUserArgs>>;
   updateUser?: Resolver<Maybe<ResolversTypes['UserPayload']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getAdminAccount?: Resolver<Maybe<ResolversTypes['AdminPayload']>, ParentType, ContextType>;
   getAdmins?: Resolver<Maybe<ResolversTypes['AdminListPayload']>, ParentType, ContextType, Partial<QueryGetAdminsArgs>>;
   getUsers?: Resolver<Maybe<ResolversTypes['UsersPayload']>, ParentType, ContextType, Partial<QueryGetUsersArgs>>;
   me?: Resolver<ResolversTypes['UserPayload'], ParentType, ContextType>;
+  meSuperAdmin?: Resolver<Maybe<ResolversTypes['SuperAdminPayload']>, ParentType, ContextType>;
+};
+
+export type SuperAdminResolvers<ContextType = any, ParentType extends ResolversParentTypes['SuperAdmin'] = ResolversParentTypes['SuperAdmin']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  availableCredit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  creditDistributedByAgent?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  creditGivenToAgent?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  creditLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  userName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SuperAdminPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SuperAdminPayload'] = ResolversParentTypes['SuperAdminPayload']> = {
+  error?: Resolver<Maybe<ResolversTypes['ErrorType']>, ParentType, ContextType>;
+  superAdmin?: Resolver<Maybe<ResolversTypes['SuperAdmin']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  availableCredit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  creditLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  role?: Resolver<ResolversTypes['UserRole'], ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   userName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -449,12 +538,15 @@ export type UsersPayloadResolvers<ContextType = any, ParentType extends Resolver
 
 export type Resolvers<ContextType = any> = {
   Admin?: AdminResolvers<ContextType>;
+  AdminAuthPayload?: AdminAuthPayloadResolvers<ContextType>;
   AdminListPayload?: AdminListPayloadResolvers<ContextType>;
   AdminPayload?: AdminPayloadResolvers<ContextType>;
   AuthPayload?: AuthPayloadResolvers<ContextType>;
   ErrorType?: ErrorTypeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SuperAdmin?: SuperAdminResolvers<ContextType>;
+  SuperAdminPayload?: SuperAdminPayloadResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserPayload?: UserPayloadResolvers<ContextType>;
   UsersPayload?: UsersPayloadResolvers<ContextType>;

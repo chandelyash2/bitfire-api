@@ -1,4 +1,4 @@
-import { User } from '@server/generated/graphql'
+import {  User } from '@server/generated/graphql'
 
 export interface IGetUserAuthInfoRequest extends Request {
   user: User // or any other type

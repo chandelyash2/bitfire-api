@@ -1,6 +1,5 @@
 import {
   GraphQLBoolean,
-  GraphQLEnumType,
   GraphQLID,
   GraphQLInt,
   GraphQLNonNull,
@@ -8,20 +7,6 @@ import {
   GraphQLString,
 } from 'graphql'
 
-export const userRole = new GraphQLEnumType({
-  name: 'UserRole',
-  values: {
-    User: {
-      value: 'user',
-    },
-    Admin: {
-      value: 'admin',
-    },
-    Superadmin: {
-      value: 'superadmin',
-    },
-  },
-})
 const User = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
@@ -40,17 +25,11 @@ const User = new GraphQLObjectType({
     password: {
       type: GraphQLString,
     },
-    role: {
-      type: new GraphQLNonNull(userRole),
-    },
     status: {
       type: GraphQLBoolean,
     },
-    creditLimit: {
-      type: GraphQLInt,
-    },
-    availableCredit: {
-      type: GraphQLInt,
+    role: {
+      type: GraphQLString,
     },
   }),
 })

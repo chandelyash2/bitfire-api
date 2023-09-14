@@ -1,18 +1,18 @@
 import { Schema, model } from 'mongoose'
 
-export type User = {
+export type Admin = {
   _id: string
   parentId: string
   name: string
   userName: string
-  phone: string
   password: string
-  status: boolean
-  wallet: number
   role: string
+  status: boolean
+  creditLimit: number
+  availableCredit: number
 }
 
-const userSchema = new Schema<User>(
+const adminSchema = new Schema<Admin>(
   {
     parentId: {
       type: String,
@@ -27,10 +27,6 @@ const userSchema = new Schema<User>(
       required: true,
       unique: true,
     },
-    phone: {
-      type: String,
-      unique: true,
-    },
     password: {
       type: String,
       required: true,
@@ -39,14 +35,20 @@ const userSchema = new Schema<User>(
       type: Boolean,
       default: true,
     },
+    creditLimit: {
+      type: Number,
+    },
+    availableCredit: {
+      type: Number,
+    },
     role: {
       type: String,
-      default: 'User',
+      default: 'Admin',
     },
   },
   {
     timestamps: true,
   },
 )
-const userModel = model('users', userSchema)
-export default userModel
+const adminModel = model('admin', adminSchema)
+export default adminModel

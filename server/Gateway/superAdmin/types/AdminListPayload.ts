@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLObjectType } from 'graphql'
-import Admin from './Admin'
+import Admin from '../../admin/types/Admin'
 import ErrorType from '@server/Gateway/user/types/Error'
 
 const AdminListPayload = new GraphQLObjectType({

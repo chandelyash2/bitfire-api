@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
-import { User } from '@server/generated/graphql'
+import { SuperAdmin, User, Admin } from '@server/generated/graphql'
 import { IAuthRequest } from '@server/Gateway/types'
 
-export const signToken = (user: User) => {
+export const signToken = (user: User | Admin | SuperAdmin) => {
   const token = jwt.sign(
     {
       user: {
@@ -21,18 +21,28 @@ export const checkToken = (token: string) => {
   return jwt.verify(token, process.env.JWT_SECRET)
 }
 
-export const parseJwt = (req: IAuthRequest) => {
+export const parseJwt = async (req: IAuthRequest) => {
   const authorizationHeader = req.headers.authorization
   const token: string =
     authorizationHeader && authorizationHeader.replace('Bearer ', '')
   try {
     const jwtData = checkToken(token)
+    // const userId = jwtData.user._id
+
+    // if (Date.now() >= jwtData.exp * 1000) {
+    //   req.user = null
+    // }
+    // if (jwtData.user.role === 'SuperAdmin') {
+    //   const user = await superAdminFindOne({ _id: userId })
+    //   if (!user) {
+    //     return
+    //   }else
+    // }
+
     if (jwtData && jwtData.user) {
       req.user = jwtData.user
     } else {
       req.user = null
-      // console.log('not authorised')
-      // authLogger.debug('Token was not authorized', { token });
     }
   } catch (err) {
     req.user = null

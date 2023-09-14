@@ -1,12 +1,7 @@
-import { GraphQLInputObjectType, GraphQLInt, GraphQLNonNull } from 'graphql'
-import { userRole } from './User'
+import { GraphQLInputObjectType, GraphQLInt } from 'graphql'
 const GetUsersInput = new GraphQLInputObjectType({
   name: 'UsersInput',
   fields: () => ({
-    filter: {
-      type: new GraphQLNonNull(userRole),
-    },
-
     limit: {
       type: GraphQLInt,
     },

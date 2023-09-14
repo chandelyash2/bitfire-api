@@ -1,5 +1,5 @@
 import userFindOne from '@server/Database/operation/user/userFindOne'
-import { ErrorType, User } from '@server/generated/graphql'
+import { Admin, ErrorType, SuperAdmin, User } from '@server/generated/graphql'
 import bcrypt from 'bcrypt'
 
 const validateEmail = (email: string) => {
@@ -32,11 +32,21 @@ export const isUserExist = (User: User): ErrorType | undefined => {
     }
   }
 }
-export const userNotExist = (user: User): ErrorType | undefined => {
+export const isUserNameExist = (User: User | Admin|SuperAdmin): ErrorType | undefined => {
+  if (User) {
+    return {
+      message: 'Username already exist‼️',
+      code: 'USERNAME_ALREADY_EXIST',
+    }
+  }
+}
+export const userNotExist = (
+  user: User | Admin | SuperAdmin,
+): ErrorType | undefined => {
   if (!user) {
     return {
-      message: 'User account not exist',
-      code: 'USER_NOT_EXIST',
+      message: 'account not exist',
+      code: 'ACCOUNT_NOT_EXIST',
     }
   }
 }
@@ -70,10 +80,13 @@ export const isValidPassword = (password: string) => {
       message:
         'Minimum 8 characters with at least one uppercase, lowercase, numeric and special characters.',
       code: 'NOT_VALID_PASSWORD',
-    };
+    }
   }
 }
-export const invalidCreds = (user: User, pasword: string) => {
+export const invalidCreds = (
+  user: User | Admin | SuperAdmin,
+  pasword: string,
+) => {
   if (!user) {
     return {
       message: 'Invalid Login Credentials‼️',

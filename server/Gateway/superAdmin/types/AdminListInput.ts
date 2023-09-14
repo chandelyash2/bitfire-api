@@ -1,6 +1,7 @@
 import { GraphQLInputObjectType, GraphQLInt } from 'graphql'
-const GetAdminInput = new GraphQLInputObjectType({
-  name: 'GetAdminInput',
+
+const AdminListInput = new GraphQLInputObjectType({
+  name: 'AdminListInput',
   fields: () => ({
     limit: {
       type: GraphQLInt,
@@ -10,4 +11,4 @@ const GetAdminInput = new GraphQLInputObjectType({
     },
   }),
 })
-export default GetAdminInput
+export default AdminListInput
