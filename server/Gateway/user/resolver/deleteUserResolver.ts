@@ -1,10 +1,10 @@
 import userModel from '@server/Database/models/userModel'
-import { UserPayload } from '@server/generated/graphql'
+import { AuthPayload } from '@server/generated/graphql'
 
 export default async (
   _: unknown,
   args: { id: string },
-): Promise<UserPayload> => {
+): Promise<AuthPayload> => {
   const { id } = args
   const deleteUser = await userModel.findOneAndDelete({ _id: id })
   if (deleteUser) {

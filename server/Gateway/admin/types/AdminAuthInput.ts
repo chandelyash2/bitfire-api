@@ -1,4 +1,4 @@
-import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql'
+import { GraphQLInputObjectType, GraphQLInt, GraphQLNonNull, GraphQLString } from 'graphql'
 
 const AdminAuthInput = new GraphQLInputObjectType({
   name: 'AdminAuthInput',
@@ -12,9 +12,8 @@ const AdminAuthInput = new GraphQLInputObjectType({
     password: {
       type: new GraphQLNonNull(GraphQLString),
     },
-
     creditLimit: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(GraphQLInt),
     },
   }),
 })

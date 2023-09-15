@@ -1,15 +1,19 @@
 import { Schema, model } from 'mongoose'
 
+export enum AdminRole {
+  Admin = 'admin',
+  Superadmin = 'superadmin',
+}
 export type Admin = {
   _id: string
   parentId: string
   name: string
   userName: string
   password: string
-  role: string
   status: boolean
   creditLimit: number
   availableCredit: number
+  role: AdminRole
 }
 
 const adminSchema = new Schema<Admin>(
@@ -43,7 +47,8 @@ const adminSchema = new Schema<Admin>(
     },
     role: {
       type: String,
-      default: 'Admin',
+      required: true,
+      enum: AdminRole,
     },
   },
   {

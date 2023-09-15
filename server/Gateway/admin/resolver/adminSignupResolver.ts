@@ -3,13 +3,13 @@ import { ResolverContext } from '@server/Gateway/types'
 import { isUserNameExist, isValidPassword } from '@server/Gateway/user/errors'
 import {
   AdminAuthPayload,
+  AdminRole,
   MutationRegisterAdminArgs,
 } from '@server/generated/graphql'
 import createAdmin from '@server/Database/operation/admin/createAdmin'
 import adminFindOne from '@server/Database/operation/admin/adminFindOne'
-import superAdminModel from '@server/Database/models/superAdminSchema'
-import superAdminFindOne from '@server/Database/operation/superAdmin/superAdminFindOne'
 import { signToken } from '@server/Services/authJwt'
+import adminModel from '@server/Database/models/adminModel'
 
 export default async (
   _: unknown,
@@ -38,15 +38,17 @@ export default async (
     parentId: userId,
     availableCredit: input.creditLimit,
     password: hashedPassword,
+    role:AdminRole.Admin
+ 
   }
   const admin = await createAdmin(inputData)
 
-  const parentUser = await superAdminFindOne({ _id: userId })
+  const parentUser = await adminFindOne({ _id: userId })
 
-  await superAdminModel.findOneAndUpdate(
+  await adminModel.findOneAndUpdate(
     { _id: userId },
     {
-      availableCredit: parentUser.availableCredit - parseInt(input.creditLimit),
+      availableCredit: parentUser.availableCredit -input.creditLimit,
     },
   )
 

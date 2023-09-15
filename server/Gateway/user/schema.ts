@@ -4,7 +4,6 @@ import registerUserResolver from './resolver/registerUserResolver'
 import AuthPayload from './types/AuthPayload'
 import AuthInput from './types/AuthInput'
 import authUserResolver from './resolver/authUserResolver'
-import UserPayload from './types/UserPayload'
 import UpdateUserInput from './types/UpdateUserInput'
 import updateUserResolver from './resolver/updateUserResolver'
 import { isAdmin, isAuthenticated, isSuperAdmin } from '@services/shield'
@@ -18,7 +17,7 @@ import ChangePasswordInput from './types/ChangePasswordInput'
 import changePasswordResolver from './resolver/changePasswordResolver'
 export const userQuery = {
   me: {
-    type: new GraphQLNonNull(UserPayload),
+    type: AuthPayload,
     resolve: userInfoResolver,
   },
   getUsers: {
@@ -52,7 +51,7 @@ export const userMutation = {
     resolve: authUserResolver,
   },
   updateUser: {
-    type: UserPayload,
+    type: AuthPayload,
     args: {
       input: {
         type: UpdateUserInput,
@@ -61,7 +60,7 @@ export const userMutation = {
     resolve: updateUserResolver,
   },
   deleteUser: {
-    type: UserPayload,
+    type: AuthPayload,
     args: {
       id: {
         type: new GraphQLNonNull(GraphQLID),
@@ -70,7 +69,7 @@ export const userMutation = {
     resolve: deleteUserResolver,
   },
   changePassword: {
-    type: UserPayload,
+    type: AuthPayload,
     args: {
       input: {
         type: new GraphQLNonNull(ChangePasswordInput),

@@ -1,8 +1,4 @@
 import {
-  superAdminMutation,
-  superAdminQuery,
-} from './Gateway/superAdmin/schema'
-import {
   adminQuery,
   adminMutation,
   adminPermisiion,
@@ -21,7 +17,6 @@ const query = new GraphQLObjectType({
   fields: {
     ...userQuery,
     ...adminQuery,
-    ...superAdminQuery,
   },
 })
 const mutation = new GraphQLObjectType({
@@ -29,7 +24,6 @@ const mutation = new GraphQLObjectType({
   fields: {
     ...userMutation,
     ...adminMutation,
-    ...superAdminMutation,
   },
 })
 const permissions = shield(

@@ -9,7 +9,7 @@ export default async (
   const deleteUser = await adminModel.findOneAndDelete({ _id: id })
   if (deleteUser) {
     return {
-      admin: deleteUser,
+      // admin: deleteUser,
     }
   }
 }

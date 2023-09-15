@@ -1,26 +1,44 @@
 import { isSuperAdmin } from '@server/Services/shield'
 import { allow } from 'graphql-shield'
 import AdminAuthPayload from './types/AdminAuthPayload'
-import adminSignupResolver from './resolver/adminSignupResolver'
 import AuthInput from '../user/types/AuthInput'
 import adminAuthResolver from './resolver/adminAuthResolver'
-import AdminAuthInput from './types/AdminAuthInput'
 import AdminPayload from './types/AdminPayLoad'
-import { GraphQLID, GraphQLNonNull } from 'graphql'
+import { GraphQLID, GraphQLList, GraphQLNonNull } from 'graphql'
 import deleteAdminResolver from './resolver/deleteAdminResolver'
+import AdminAuthInput from './types/AdminAuthInput'
+import adminSignupResolver from './resolver/adminSignupResolver'
+import meAdminResolver from './resolver/meAdminResolver'
+import Admin from './types/Admin'
+import GetAdminInput from './types/GetAdminInput'
+import getAdminsResolver from './resolver/getAdminsResolver'
 
-export const adminQuery = {}
+export const adminQuery = {
+  me: {
+    type: AdminPayload,
+    resolve: meAdminResolver,
+  },
+  getAdmins: {
+    type: new GraphQLList(Admin),
+    args: {
+      input: {
+        type: GetAdminInput,
+      },
+    },
+    resolve: getAdminsResolver,
+  },
+}
 
 export const adminMutation = {
-  // registerAdmin: {
-  //   type: AdminAuthPayload,
-  //   args: {
-  //     input: {
-  //       type: AdminAuthInput,
-  //     },
-  //   },
-  //   resolve: adminSignupResolver,
-  // },
+  registerAdmin: {
+    type: AdminAuthPayload,
+    args: {
+      input: {
+        type: AdminAuthInput,
+      },
+    },
+    resolve: adminSignupResolver,
+  },
   authAdmin: {
     type: AdminAuthPayload,
     args: {
@@ -41,7 +59,9 @@ export const adminMutation = {
   },
 }
 export const adminPermisiion = {
-  Query: {},
+  Query: {
+    getAdmins: isSuperAdmin,
+  },
   Mutation: {
     registerAdmin: isSuperAdmin,
     authAdmin: allow,

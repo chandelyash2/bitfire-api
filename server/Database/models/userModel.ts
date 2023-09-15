@@ -41,7 +41,7 @@ const userSchema = new Schema<User>(
     },
     role: {
       type: String,
-      default: 'User',
+      default: 'user',
     },
   },
   {

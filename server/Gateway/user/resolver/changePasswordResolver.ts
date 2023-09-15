@@ -2,7 +2,7 @@ import userFindOne from '@server/Database/operation/user/userFindOne'
 import { ResolverContext } from '@server/Gateway/types'
 import {
   MutationChangePasswordArgs,
-  UserPayload,
+  AuthPayload,
 } from '@server/generated/graphql'
 import { invalidCreds, isValidPassword, userNotExist } from '../errors'
 import bcrypt from 'bcrypt'
@@ -12,7 +12,7 @@ export default async (
   _: unknown,
   args: MutationChangePasswordArgs,
   ctx: ResolverContext,
-): Promise<UserPayload> => {
+): Promise<AuthPayload> => {
   try {
     const { input } = args
     const userId = ctx.user._id
