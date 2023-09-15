@@ -27,18 +27,6 @@ export const parseJwt = async (req: IAuthRequest) => {
     authorizationHeader && authorizationHeader.replace('Bearer ', '')
   try {
     const jwtData = checkToken(token)
-    // const userId = jwtData.user._id
-
-    // if (Date.now() >= jwtData.exp * 1000) {
-    //   req.user = null
-    // }
-    // if (jwtData.user.role === 'SuperAdmin') {
-    //   const user = await superAdminFindOne({ _id: userId })
-    //   if (!user) {
-    //     return
-    //   }else
-    // }
-
     if (jwtData && jwtData.user) {
       req.user = jwtData.user
     } else {
@@ -46,7 +34,5 @@ export const parseJwt = async (req: IAuthRequest) => {
     }
   } catch (err) {
     req.user = null
-
-    // console.log("err", err);
   }
 }
