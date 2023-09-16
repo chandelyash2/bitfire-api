@@ -1,4 +1,9 @@
-import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql'
+import {
+  GraphQLInputObjectType,
+  GraphQLInt,
+  GraphQLNonNull,
+  GraphQLString,
+} from 'graphql'
 
 const SignupInputType = new GraphQLInputObjectType({
   name: 'SignUpInput',
@@ -14,6 +19,9 @@ const SignupInputType = new GraphQLInputObjectType({
     },
     password: {
       type: new GraphQLNonNull(GraphQLString),
+    },
+    creditLimit: {
+      type: new GraphQLNonNull(GraphQLInt),
     },
   }),
 })

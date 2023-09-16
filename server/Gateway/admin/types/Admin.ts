@@ -1,4 +1,5 @@
 import adminFind from '@server/Database/operation/admin/adminFind'
+import userFind from '@server/Database/operation/user/userFind'
 import {
   GraphQLBoolean,
   GraphQLEnumType,
@@ -65,6 +66,16 @@ const Admin = new GraphQLObjectType({
     },
     creditDistributedByAgent: {
       type: GraphQLInt,
+    },
+    creditGivenToUser: {
+      type: GraphQLInt,
+      resolve: async (src) => {
+        const users = await userFind({ parentId: src._id })
+        const totalCredit = users.reduce((prev, curr) => {
+          return prev + curr.creditLimit
+        }, 0)
+        return totalCredit
+      },
     },
   }),
 })

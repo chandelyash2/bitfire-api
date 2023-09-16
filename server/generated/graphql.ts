@@ -88,6 +88,7 @@ export type GetAdminInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  adminChangePassword?: Maybe<AdminPayload>;
   authAdmin?: Maybe<AdminAuthPayload>;
   authLogin?: Maybe<AuthPayload>;
   changePassword?: Maybe<AuthPayload>;
@@ -96,6 +97,11 @@ export type Mutation = {
   registerAdmin?: Maybe<AdminAuthPayload>;
   registerUser?: Maybe<AuthPayload>;
   updateUser?: Maybe<AuthPayload>;
+};
+
+
+export type MutationAdminChangePasswordArgs = {
+  input?: InputMaybe<ChangePasswordInput>;
 };
 
 
@@ -156,6 +162,7 @@ export type QueryGetUsersArgs = {
 };
 
 export type SignUpInput = {
+  creditLimit: Scalars['Int']['input'];
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phone?: InputMaybe<Scalars['String']['input']>;
@@ -173,6 +180,8 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
+  availableCredit?: Maybe<Scalars['Int']['output']>;
+  creditLimit?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
   password?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
@@ -407,6 +416,7 @@ export type ErrorTypeResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  adminChangePassword?: Resolver<Maybe<ResolversTypes['AdminPayload']>, ParentType, ContextType, Partial<MutationAdminChangePasswordArgs>>;
   authAdmin?: Resolver<Maybe<ResolversTypes['AdminAuthPayload']>, ParentType, ContextType, Partial<MutationAuthAdminArgs>>;
   authLogin?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, Partial<MutationAuthLoginArgs>>;
   changePassword?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'input'>>;
@@ -425,6 +435,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  availableCredit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  creditLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

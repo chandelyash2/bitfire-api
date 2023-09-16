@@ -10,6 +10,8 @@ export type User = {
   status: boolean
   wallet: number
   role: string
+  creditLimit: number
+  availableCredit: number
 }
 
 const userSchema = new Schema<User>(
@@ -42,6 +44,12 @@ const userSchema = new Schema<User>(
     role: {
       type: String,
       default: 'user',
+    },
+    creditLimit: {
+      type: Number,
+    },
+    availableCredit: {
+      type: Number,
     },
   },
   {

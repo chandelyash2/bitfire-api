@@ -1,5 +1,5 @@
-import { isSuperAdmin } from '@server/Services/shield'
-import { allow } from 'graphql-shield'
+import { isAdmin, isSuperAdmin } from '@server/Services/shield'
+import { allow, or } from 'graphql-shield'
 import AdminAuthPayload from './types/AdminAuthPayload'
 import AuthInput from '../user/types/AuthInput'
 import adminAuthResolver from './resolver/adminAuthResolver'
@@ -12,6 +12,8 @@ import meAdminResolver from './resolver/meAdminResolver'
 import Admin from './types/Admin'
 import GetAdminInput from './types/GetAdminInput'
 import getAdminsResolver from './resolver/getAdminsResolver'
+import ChangePasswordInput from '../user/types/ChangePasswordInput'
+import adminChangePasswordResolver from './resolver/adminChangePasswordResolver'
 
 export const adminQuery = {
   me: {
@@ -57,6 +59,15 @@ export const adminMutation = {
     },
     resolve: deleteAdminResolver,
   },
+  adminChangePassword: {
+    type: AdminPayload,
+    args: {
+      input: {
+        type: ChangePasswordInput,
+      },
+    },
+    resolve:adminChangePasswordResolver
+  },
 }
 export const adminPermisiion = {
   Query: {
@@ -66,5 +77,6 @@ export const adminPermisiion = {
     registerAdmin: isSuperAdmin,
     authAdmin: allow,
     deleteAdmin: isSuperAdmin,
+    adminChangePassword: or(isSuperAdmin, isAdmin),
   },
 }

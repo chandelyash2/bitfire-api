@@ -1,6 +1,7 @@
 import {
   GraphQLBoolean,
   GraphQLID,
+  GraphQLInt,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
@@ -29,6 +30,12 @@ const User = new GraphQLObjectType({
     },
     role: {
       type: GraphQLString,
+    },
+    availableCredit: {
+      type: GraphQLInt,
+    },
+    creditLimit: {
+      type: GraphQLInt,
     },
   }),
 })
