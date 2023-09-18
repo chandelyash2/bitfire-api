@@ -9,6 +9,7 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql'
+import creditDistributedByAgentResolver from '../resolver/creditDistributedByAgentResolver'
 
 export const adminRole = new GraphQLEnumType({
   name: 'AdminRole',
@@ -28,7 +29,7 @@ const Admin = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLID),
     },
     parentId: {
-      type: GraphQLString,
+      type: GraphQLID,
     },
     name: {
       type: new GraphQLNonNull(GraphQLString),
@@ -66,6 +67,7 @@ const Admin = new GraphQLObjectType({
     },
     creditDistributedByAgent: {
       type: GraphQLInt,
+      resolve: creditDistributedByAgentResolver
     },
     creditGivenToUser: {
       type: GraphQLInt,

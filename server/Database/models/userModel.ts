@@ -1,8 +1,8 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Types } from 'mongoose'
 
 export type User = {
-  _id: string
-  parentId: string
+  _id: Types.ObjectId
+  parentId: Types.ObjectId
   name: string
   userName: string
   phone: string
@@ -17,7 +17,7 @@ export type User = {
 const userSchema = new Schema<User>(
   {
     parentId: {
-      type: String,
+      type: Schema.Types.ObjectId,
       ref: 'admin',
     },
     name: {

@@ -23,9 +23,10 @@ export type Admin = {
   availableCredit?: Maybe<Scalars['Int']['output']>;
   creditDistributedByAgent?: Maybe<Scalars['Int']['output']>;
   creditGivenToAgent?: Maybe<Scalars['Int']['output']>;
+  creditGivenToUser?: Maybe<Scalars['Int']['output']>;
   creditLimit?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
-  parentId?: Maybe<Scalars['String']['output']>;
+  parentId?: Maybe<Scalars['ID']['output']>;
   password?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
   role?: Maybe<AdminRole>;
@@ -378,9 +379,10 @@ export type AdminResolvers<ContextType = any, ParentType extends ResolversParent
   availableCredit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   creditDistributedByAgent?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   creditGivenToAgent?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  creditGivenToUser?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   creditLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  parentId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<Maybe<ResolversTypes['AdminRole']>, ParentType, ContextType>;

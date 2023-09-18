@@ -1,12 +1,13 @@
-import { Schema, model } from 'mongoose'
+import { Schema, Types, model } from 'mongoose'
 
 export enum AdminRole {
   Admin = 'admin',
   Superadmin = 'superadmin',
 }
-export type Admin = {
-  _id: string
-  parentId: string
+
+export interface Admin extends Document {
+  _id: Types.ObjectId
+  parentId: Types.ObjectId
   name: string
   userName: string
   password: string
@@ -19,7 +20,7 @@ export type Admin = {
 const adminSchema = new Schema<Admin>(
   {
     parentId: {
-      type: String,
+      type: Schema.Types.ObjectId,
       ref: 'admin',
     },
     name: {
