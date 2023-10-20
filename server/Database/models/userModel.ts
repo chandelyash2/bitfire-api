@@ -1,17 +1,20 @@
 import { Schema, model, Types } from 'mongoose'
+import { Status } from './adminModel'
 
 export type User = {
   _id: Types.ObjectId
   parentId: Types.ObjectId
-  name: string
   userName: string
   phone: string
   password: string
-  status: boolean
+  status: Status
   wallet: number
   role: string
   creditLimit: number
   availableCredit: number
+  bettingStatus: boolean
+  transferStatus: boolean
+  loginStep: boolean
 }
 
 const userSchema = new Schema<User>(
@@ -19,10 +22,6 @@ const userSchema = new Schema<User>(
     parentId: {
       type: Schema.Types.ObjectId,
       ref: 'admin',
-    },
-    name: {
-      type: String,
-      required: true,
     },
     userName: {
       type: String,
@@ -38,8 +37,9 @@ const userSchema = new Schema<User>(
       required: true,
     },
     status: {
-      type: Boolean,
-      default: true,
+      type: String,
+      enum: Status,
+      default: Status.ACTIVE,
     },
     role: {
       type: String,
@@ -50,6 +50,18 @@ const userSchema = new Schema<User>(
     },
     availableCredit: {
       type: Number,
+    },
+    bettingStatus: {
+      type: Boolean,
+      default: true,
+    },
+    transferStatus: {
+      type: Boolean,
+      default: true,
+    },
+    loginStep: {
+      type: Boolean,
+      default: false,
     },
   },
   {

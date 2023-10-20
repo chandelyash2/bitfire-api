@@ -10,6 +10,7 @@ import {
   GraphQLString,
 } from 'graphql'
 import creditDistributedByAgentResolver from '../resolver/creditDistributedByAgentResolver'
+import { GraphQLDate } from 'graphql-scalars'
 
 export const adminRole = new GraphQLEnumType({
   name: 'AdminRole',
@@ -47,7 +48,7 @@ const Admin = new GraphQLObjectType({
       type: adminRole,
     },
     status: {
-      type: GraphQLBoolean,
+      type: GraphQLString,
     },
     creditLimit: {
       type: GraphQLInt,
@@ -67,7 +68,7 @@ const Admin = new GraphQLObjectType({
     },
     creditDistributedByAgent: {
       type: GraphQLInt,
-      resolve: creditDistributedByAgentResolver
+      resolve: creditDistributedByAgentResolver,
     },
     creditGivenToUser: {
       type: GraphQLInt,
@@ -78,6 +79,18 @@ const Admin = new GraphQLObjectType({
         }, 0)
         return totalCredit
       },
+    },
+    transferStatus: {
+      type: GraphQLBoolean,
+    },
+    bettingStatus: {
+      type: GraphQLBoolean,
+    },
+    createdAt: {
+      type: GraphQLDate,
+    },
+    loginStep: {
+      type: GraphQLBoolean,
     },
   }),
 })

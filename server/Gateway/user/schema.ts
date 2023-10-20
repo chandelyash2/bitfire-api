@@ -15,6 +15,7 @@ import deleteUserResolver from './resolver/deleteUserResolver'
 import userInfoResolver from './resolver/userInfoResolver'
 import ChangePasswordInput from './types/ChangePasswordInput'
 import changePasswordResolver from './resolver/changePasswordResolver'
+
 export const userQuery = {
   me: {
     type: AuthPayload,

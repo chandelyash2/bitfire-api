@@ -3,29 +3,34 @@ import { Schema, Types, model } from 'mongoose'
 export enum AdminRole {
   Admin = 'admin',
   Superadmin = 'superadmin',
+  User = 'user',
+}
+export enum Status {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  CLOSED = 'CLOSED',
 }
 
 export interface Admin extends Document {
   _id: Types.ObjectId
   parentId: Types.ObjectId
-  name: string
   userName: string
   password: string
-  status: boolean
+  status: Status
   creditLimit: number
   availableCredit: number
   role: AdminRole
+  bettingStatus: boolean
+  transferStatus: boolean
+  loginStep: boolean
 }
 
 const adminSchema = new Schema<Admin>(
   {
     parentId: {
       type: Schema.Types.ObjectId,
-      ref: 'admin',
-    },
-    name: {
-      type: String,
-      required: true,
+      ref: 'user',
     },
     userName: {
       type: String,
@@ -37,8 +42,9 @@ const adminSchema = new Schema<Admin>(
       required: true,
     },
     status: {
-      type: Boolean,
-      default: true,
+      type: String,
+      enum: Status,
+      default: Status.ACTIVE,
     },
     creditLimit: {
       type: Number,
@@ -46,15 +52,27 @@ const adminSchema = new Schema<Admin>(
     availableCredit: {
       type: Number,
     },
+    bettingStatus: {
+      type: Boolean,
+      default: true,
+    },
+    transferStatus: {
+      type: Boolean,
+      default: true,
+    },
     role: {
       type: String,
       required: true,
       enum: AdminRole,
+    },
+    loginStep: {
+      type: Boolean,
+      default: false,
     },
   },
   {
     timestamps: true,
   },
 )
-const adminModel = model('admin', adminSchema)
+const adminModel = model('user', adminSchema)
 export default adminModel

@@ -8,7 +8,6 @@ export default async (
   ctx: ResolverContext,
 ) => {
   const userId = ctx.user._id
-
   const { limit, offset } = args.input
   const find = await adminFind({ parentId: userId }, limit, offset)
 

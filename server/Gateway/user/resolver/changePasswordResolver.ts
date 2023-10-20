@@ -36,7 +36,7 @@ export default async (
     const hashedPassword = await bcrypt.hash(input.newPassword, 12)
     await userModel.findOneAndUpdate(
       { _id: userId },
-      { password: hashedPassword },
+      { password: hashedPassword, loginStep: true },
     )
     return {
       user: user,

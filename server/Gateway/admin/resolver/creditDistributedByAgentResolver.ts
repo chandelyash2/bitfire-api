@@ -23,5 +23,10 @@ export default async (src) => {
       },
     },
   ])
-  return admins[0].totalAmount
+  
+  if (admins.length>0) {
+    return admins[0].totalAmount
+  } else {
+    return 0
+  }
 }

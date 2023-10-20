@@ -6,15 +6,13 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql'
+import { GraphQLDate } from 'graphql-scalars'
 
 const User = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
     _id: {
       type: new GraphQLNonNull(GraphQLID),
-    },
-    name: {
-      type: new GraphQLNonNull(GraphQLString),
     },
     userName: {
       type: new GraphQLNonNull(GraphQLString),
@@ -26,7 +24,7 @@ const User = new GraphQLObjectType({
       type: GraphQLString,
     },
     status: {
-      type: GraphQLBoolean,
+      type: GraphQLString,
     },
     role: {
       type: GraphQLString,
@@ -36,6 +34,18 @@ const User = new GraphQLObjectType({
     },
     creditLimit: {
       type: GraphQLInt,
+    },
+    transferStatus: {
+      type: GraphQLBoolean,
+    },
+    bettingStatus: {
+      type: GraphQLBoolean,
+    },
+    loginStep: {
+      type: GraphQLBoolean,
+    },
+    createdAt: {
+      type: GraphQLDate,
     },
   }),
 })

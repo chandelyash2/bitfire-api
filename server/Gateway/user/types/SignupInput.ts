@@ -11,9 +11,6 @@ const SignupInputType = new GraphQLInputObjectType({
     userName: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    name: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
     phone: {
       type: GraphQLString,
     },

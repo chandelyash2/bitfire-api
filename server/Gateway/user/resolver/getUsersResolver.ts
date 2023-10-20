@@ -9,9 +9,9 @@ export default async (
 ): Promise<UsersPayload> => {
   try {
     const adminId = ctx.user._id
-    const { limit, offset } = args.input
+    const { id, limit, offset } = args.input
 
-    const users = await userFind({ parentId: adminId }, limit, offset)
+    const users = await userFind({ parentId: id ? id : adminId }, limit, offset)
     return {
       user: users,
     }
