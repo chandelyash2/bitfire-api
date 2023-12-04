@@ -1,15 +1,24 @@
 import { Schema, model, Types } from 'mongoose'
-import { Status } from './adminModel'
 
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  SUPERADMIN = 'SUPERADMIN',
+  USER = 'USER',
+}
+export enum Status {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  CLOSED = 'CLOSED',
+}
 export type User = {
   _id: Types.ObjectId
   parentId: Types.ObjectId
   userName: string
-  phone: string
   password: string
   status: Status
   wallet: number
-  role: string
+  role: UserRole
   creditLimit: number
   availableCredit: number
   bettingStatus: boolean
@@ -21,15 +30,11 @@ const userSchema = new Schema<User>(
   {
     parentId: {
       type: Schema.Types.ObjectId,
-      ref: 'admin',
+      ref: 'users',
     },
     userName: {
       type: String,
       required: true,
-      unique: true,
-    },
-    phone: {
-      type: String,
       unique: true,
     },
     password: {
@@ -43,7 +48,7 @@ const userSchema = new Schema<User>(
     },
     role: {
       type: String,
-      default: 'user',
+      enum: UserRole,
     },
     creditLimit: {
       type: Number,

@@ -15,6 +15,8 @@ import deleteUserResolver from './resolver/deleteUserResolver'
 import userInfoResolver from './resolver/userInfoResolver'
 import ChangePasswordInput from './types/ChangePasswordInput'
 import changePasswordResolver from './resolver/changePasswordResolver'
+import getUserResolver from './resolver/getUserResolver'
+import authResolver from './resolver/authResolver'
 
 export const userQuery = {
   me: {
@@ -30,6 +32,15 @@ export const userQuery = {
     },
     resolve: getUsersResolver,
   },
+  getUser: {
+    type: AuthPayload,
+    args: {
+      id: {
+        type: GraphQLID,
+      },
+    },
+    resolve: getUserResolver,
+  },
 }
 
 export const userMutation = {
@@ -43,6 +54,15 @@ export const userMutation = {
     resolve: registerUserResolver,
   },
   authLogin: {
+    type: AuthPayload,
+    args: {
+      input: {
+        type: AuthInput,
+      },
+    },
+    resolve: authResolver,
+  },
+  authUserLogin: {
     type: AuthPayload,
     args: {
       input: {
@@ -83,10 +103,11 @@ export const userPermission = {
   Query: {
     me: isAuthenticated,
     getUsers: or(isAdmin, isSuperAdmin),
+    getUser: or(isAdmin, isSuperAdmin),
   },
   Mutation: {
     authLogin: allow,
-    registerUser: isAdmin,
+    registerUser: or(isAdmin, isSuperAdmin),
     updateUser: isAuthenticated,
   },
 }

@@ -14,7 +14,7 @@ export const isAdmin = rule({ cache: 'contextual' })(async (
   args,
   ctx,
 ) => {
-  return ctx.user.role === 'admin'
+  return ctx.user.role === 'ADMIN'
 })
 
 export const isSuperAdmin = rule({ cache: 'contextual' })(async (
@@ -22,5 +22,5 @@ export const isSuperAdmin = rule({ cache: 'contextual' })(async (
   args,
   ctx
 ) => {
-  return ctx.user.role === 'superadmin'
+  return ctx.user.role === 'SUPERADMIN'
 })

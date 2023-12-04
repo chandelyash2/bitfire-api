@@ -5,7 +5,6 @@ const AuthInput = new GraphQLInputObjectType({
     userName: {
       type: new GraphQLNonNull(GraphQLString),
     },
-
     password: {
       type: new GraphQLNonNull(GraphQLString),
     },

@@ -24,6 +24,7 @@ export interface Admin extends Document {
   bettingStatus: boolean
   transferStatus: boolean
   loginStep: boolean
+  commission: number
 }
 
 const adminSchema = new Schema<Admin>(
@@ -68,6 +69,9 @@ const adminSchema = new Schema<Admin>(
     loginStep: {
       type: Boolean,
       default: false,
+    },
+    commission: {
+      type: Number,
     },
   },
   {

@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
-import { User, Admin } from '@server/generated/graphql'
+import { User } from '@server/generated/graphql'
 import { IAuthRequest } from '@server/Gateway/types'
 
-export const signToken = (user: User | Admin) => {
+export const signToken = (user: User ) => {
   const token = jwt.sign(
     {
       user: {

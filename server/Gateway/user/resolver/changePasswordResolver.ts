@@ -4,7 +4,7 @@ import {
   MutationChangePasswordArgs,
   AuthPayload,
 } from '@server/generated/graphql'
-import { invalidCreds, isValidPassword, userNotExist } from '../errors'
+import {  isValidPassword, userNotExist } from '../errors'
 import bcrypt from 'bcrypt'
 import userModel from '@server/Database/models/userModel'
 
@@ -22,10 +22,6 @@ export default async (
       return {
         error: isUserNotExist,
       }
-    }
-    const comaprePassword = invalidCreds(user, input.oldPassword)
-    if (comaprePassword) {
-      return { error: comaprePassword }
     }
     const isPswdValid = isValidPassword(input.newPassword)
     if (isPswdValid) {

@@ -1,5 +1,7 @@
+import userFind from '@server/Database/operation/user/userFind'
 import {
   GraphQLBoolean,
+  GraphQLEnumType,
   GraphQLID,
   GraphQLInt,
   GraphQLNonNull,
@@ -7,7 +9,22 @@ import {
   GraphQLString,
 } from 'graphql'
 import { GraphQLDate } from 'graphql-scalars'
+import creditDistributedByAgentResolver from '../resolver/creditDistributedByAgentResolver'
 
+export const userRole = new GraphQLEnumType({
+  name: 'UserRole',
+  values: {
+    ADMIN: {
+      value: 'ADMIN',
+    },
+    SUPERADMIN: {
+      value: 'SUPERADMIN',
+    },
+    USER: {
+      value: 'USER',
+    },
+  },
+})
 const User = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
@@ -16,9 +33,6 @@ const User = new GraphQLObjectType({
     },
     userName: {
       type: new GraphQLNonNull(GraphQLString),
-    },
-    phone: {
-      type: GraphQLString,
     },
     password: {
       type: GraphQLString,
@@ -34,6 +48,30 @@ const User = new GraphQLObjectType({
     },
     creditLimit: {
       type: GraphQLInt,
+    },
+    creditGivenToAgent: {
+      type: GraphQLInt,
+      resolve: async (src) => {
+        const users = await userFind({ parentId: src._id })
+        const totalCredit = users.reduce((prev, curr) => {
+          return prev + curr.creditLimit
+        }, 0)
+        return totalCredit
+      },
+    },
+    creditDistributedByAgent: {
+      type: GraphQLInt,
+      resolve: creditDistributedByAgentResolver,
+    },
+    creditGivenToUser: {
+      type: GraphQLInt,
+      resolve: async (src) => {
+        const users = await userFind({ parentId: src._id })
+        const totalCredit = users.reduce((prev, curr) => {
+          return prev + curr.creditLimit
+        }, 0)
+        return totalCredit
+      },
     },
     transferStatus: {
       type: GraphQLBoolean,

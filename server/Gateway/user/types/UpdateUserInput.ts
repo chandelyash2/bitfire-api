@@ -1,4 +1,9 @@
-import { GraphQLInputObjectType, GraphQLString } from 'graphql'
+import {
+  GraphQLBoolean,
+  GraphQLInputObjectType,
+  GraphQLInt,
+  GraphQLString,
+} from 'graphql'
 
 const UpdateUserInput = new GraphQLInputObjectType({
   name: 'UpdateUserInput',
@@ -9,15 +14,20 @@ const UpdateUserInput = new GraphQLInputObjectType({
     userName: {
       type: GraphQLString,
     },
-
-    name: {
-      type: GraphQLString,
-    },
-    phone: {
-      type: GraphQLString,
-    },
     password: {
       type: GraphQLString,
+    },
+    status: {
+      type: GraphQLString,
+    },
+    creditLimit: {
+      type: GraphQLInt,
+    },
+    bettingStatus: {
+      type: GraphQLBoolean,
+    },
+    transferStatus: {
+      type: GraphQLBoolean,
     },
   }),
 })

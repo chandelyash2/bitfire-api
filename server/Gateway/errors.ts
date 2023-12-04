@@ -1,5 +1,5 @@
-import userFindOne from '@server/Database/operation/user/userFindOne'
-import { ErrorType, User } from '@server/generated/graphql'
+import adminFindOne from '@server/Database/operation/user/userFindOne'
+import { Admin, ErrorType, User } from '@server/generated/graphql'
 import bcrypt from 'bcrypt'
 
 const validateEmail = (email: string) => {
@@ -63,7 +63,7 @@ export const inValidPhone = (phone) => {
 export const phoneNumberExist = async (
   phoneNumber: string,
 ): Promise<ErrorType> => {
-  const user = await userFindOne({ phone: phoneNumber })
+  const user = await adminFindOne({ phone: phoneNumber })
   if (user) {
     return {
       message: 'Phone Number already exist',
@@ -82,7 +82,7 @@ export const isValidPassword = (password: string) => {
     }
   }
 }
-export const invalidCreds = (user: User, pasword: string) => {
+export const invalidCreds = (user: User | Admin, pasword: string) => {
   if (!user) {
     return {
       message: 'Invalid Login Credentials‼️',

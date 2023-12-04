@@ -1,9 +1,30 @@
 import {
+  GraphQLEnumType,
   GraphQLInputObjectType,
   GraphQLInt,
   GraphQLNonNull,
   GraphQLString,
 } from 'graphql'
+import { userRole } from './User'
+
+export const AccountStatus = new GraphQLEnumType({
+  name: 'AccountStatus',
+  values: {
+    ACTIVE: {
+      value: 'ACTIVE',
+    },
+    INACTIVE: {
+      value: 'INACTIVE',
+    },
+    SUSPENDED: {
+      value: 'SUSPENDED',
+    },
+    CLOSED: {
+      value: 'CLOSED',
+    },
+  },
+})
+
 
 const SignupInputType = new GraphQLInputObjectType({
   name: 'SignUpInput',
@@ -11,14 +32,17 @@ const SignupInputType = new GraphQLInputObjectType({
     userName: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    phone: {
-      type: GraphQLString,
-    },
     password: {
       type: new GraphQLNonNull(GraphQLString),
     },
     creditLimit: {
       type: new GraphQLNonNull(GraphQLInt),
+    },
+    status: {
+      type: AccountStatus,
+    },
+    role: {
+      type: userRole,
     },
   }),
 })
