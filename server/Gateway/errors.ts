@@ -1,5 +1,5 @@
 import adminFindOne from '@server/Database/operation/user/userFindOne'
-import { Admin, ErrorType, User } from '@server/generated/graphql'
+import { ErrorType, User } from '@server/generated/graphql'
 import bcrypt from 'bcrypt'
 
 const validateEmail = (email: string) => {
@@ -82,7 +82,7 @@ export const isValidPassword = (password: string) => {
     }
   }
 }
-export const invalidCreds = (user: User | Admin, pasword: string) => {
+export const invalidCreds = (user: User, pasword: string) => {
   if (!user) {
     return {
       message: 'Invalid Login Credentials‼️',

@@ -71,6 +71,7 @@ export const userMutation = {
     },
     resolve: authUserResolver,
   },
+
   updateUser: {
     type: AuthPayload,
     args: {

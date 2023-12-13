@@ -5,7 +5,7 @@ export default async (_: unknown, args: { id: string }): Promise<string> => {
   const deleteUser = await userModel
     .findOneAndDelete({ _id: id })
     .then((data) => {
-      return data.toJSON()
+      return data
     })
   if (deleteUser) {
     return 'User Deleted Successfully'

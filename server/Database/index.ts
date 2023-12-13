@@ -9,5 +9,4 @@ const initiateMongoServer = async (): Promise<void> => {
     throw new Error(err);
   }
 };
-
 export default initiateMongoServer;
